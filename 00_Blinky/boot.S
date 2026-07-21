@@ -3,8 +3,8 @@
 .syntax unified
 .thumb
 
-.word   0x20005000  /* stack top address */
-.word   _reset_     /* 1 Reset */
+.word   0x20005000  /* stack top address - CPU first instruction when booting: initialize SP (stack pointer) value */
+.word   _reset_     /* 1 Reset - second instruction to jump to _reset_ label */
 .word   spin        /* 2 NMI */
 .word   spin        /* 3 Hard Fault */
 .word   spin        /* 4 MM Fault */
@@ -26,9 +26,9 @@
 		            /* On to IRQ67 */
 
 spin:
-    bkpt
+    bkpt            /* breakpoint instruction for a debugger */
 
 .thumb_func
 _reset_:
-    bl main
+    bl main         /* call main function */
     bkpt
